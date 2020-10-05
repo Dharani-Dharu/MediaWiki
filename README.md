@@ -12,7 +12,7 @@ Please pass the inputs from the folders present in resources
 
 ## Folder structure
 
-# Resources - Calling folders for respective modules
+* Resources - Calling folders for respective modules
     * computing
         * ASG
         * EC2
