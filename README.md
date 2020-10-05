@@ -10,6 +10,30 @@ The modules were tested and run against Terraform version : Terraform v0.13.4
 
 Please pass the inputs from the folders present in resources
 
+## Folder structure
+
+# Resources - Calling folders for respective modules
+    * computing
+        * ASG
+        * EC2
+        * ALB
+
+    * networking
+        * VPC
+        * Route table
+        * Subnets
+        * IGW
+        * NAT
+        * Associations
+
+    * pre_setup
+        * S3 bucket for storing backend state
+
+    * post_setup
+
+
+
+
 ## Useful Terraform commands
 terraform init -backend-config tf-backend.tfvars
 
