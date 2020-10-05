@@ -68,7 +68,7 @@
 #Ref : https://www.whatan00b.com/posts/mysql-secure-installation-using-ansible/ ##
 - name: delete anonymous MySQL server user for {{ ansible_nodename }}
   mysql_user: login_user=root
-              login_password='{{ mysql_root }}'
+              login_password='{{ root_password }}'
               check_implicit_admin=yes
               user=""
               host={{ item }}
@@ -82,10 +82,10 @@
 
 - name: Change root user password on first run
   mysql_user: login_user=root
-              login_password="{{ mysql_root }}"
+              login_password="{{ root_password }}"
               check_implicit_admin=yes
               name=root
-              password={{ mysql_root }}
+              password={{ root_password }}
               priv=*.*:ALL,GRANT
               host={{ item }}
   with_items:
