@@ -1,0 +1,145 @@
+---
+## yum httpd php php-mysql php-gd mariadb-server php-xml php-intl mysql
+- name: Install dependencies
+  yum: name="{{ web }}" state=present
+  tags:
+    - web
+    - db
+
+- name: start and enable httpd server
+  systemd: state=started name=httpd enabled=true
+  tags:
+    - web
+
+- name: start and enable mariadb
+  systemd: state=started name=mariadb enabled=true
+  tags:
+    - db
+
+- name: Download the MediaWiki Binary
+  get_url: 
+     url: 'https://releases.wikimedia.org/mediawiki/1.24/mediawiki-1.24.2.tar.gz'
+     dest: '/tmp/mediawiki-1.24.2.tar.gz'
+     mode: 0644
+  tags:
+    - web
+
+
+- name: Extract /tmp/mediawiki-1.24.2.tar.gz  into /var/www/html/
+  unarchive:
+    src: /tmp/mediawiki-1.24.2.tar.gz
+    dest: /var/www/html/
+    remote_src: yes
+  tags:
+    - web
+  notify:
+    - restart httpd
+
+- name: Change the zipped file folder name
+  become: yes
+  copy:
+    remote_src: yes
+    src: "/var/www/html/mediawiki-1.24.2/"
+    dest: "/var/www/html/mediawiki"
+  tags:
+    - web
+  notify:
+    - restart httpd
+
+- name: set permissions for apache
+  command: chown -R apache:apache /var/www/html/mediawiki/
+  tags:
+    - web
+  notify:
+    - restart httpd
+
+- name: Change directory permissions
+  file:
+    path: /var/www/mediawiki/
+    state: directory
+    mode: 0755
+  tags:
+    - web
+  notify:
+    - restart httpd
+
+
+## Security hardening of MYSQL DB ##
+#Ref : https://www.whatan00b.com/posts/mysql-secure-installation-using-ansible/ ##
+- name: delete anonymous MySQL server user for {{ ansible_nodename }}
+  mysql_user: login_user=root
+              login_password='{{ mysql_root }}'
+              check_implicit_admin=yes
+              user=""
+              host={{ item }}
+              state="absent"
+  with_items:
+   - ""
+   - "{{ ansible_nodename }}"
+   - localhost
+  tags:
+    - db
+
+- name: Change root user password on first run
+  mysql_user: login_user=root
+              login_password="{{ mysql_root }}"
+              check_implicit_admin=yes
+              name=root
+              password={{ mysql_root }}
+              priv=*.*:ALL,GRANT
+              host={{ item }}
+  with_items:
+    - "{{ ansible_nodename }}"
+    - 127.0.0.1
+    - ::1
+    - localhost
+  tags:
+    - db
+
+- name: remove the MySQL test database
+  action: mysql_db login_user=root login_password="{{ mysql_root }}" db=test state=absent
+  tags:
+    - db
+  notify:
+    - restart mariadb
+
+- name: Create a new database with name 'wikidatabase'
+  mysql_db:
+    name: "{{ db_name }}"
+    state: present
+    login_user: root
+    login_password: '{{ root_password }}'
+  tags:
+    - db
+  notify:
+    - restart mariadb
+
+- name: Create User and provide all permissions.
+  mysql_user:
+    name: "{{ wiki_db_user }}"
+    password: "{{ wiki_pwd }} "
+    host:  '%'
+    priv: '{{ db_name }}.*:ALL,GRANT'
+    state: present
+    login_user: root
+    login_password: '{{ root_password }}'
+  tags:
+    - db
+  notify:
+    - restart mariadb
+
+- name: Confirmation on Creation.
+  shell: 'mysql -u root -p {{ root_password }} --execute="SHOW DATABASES;"'
+  register: db_list
+  tags:
+    - db
+  notify:
+    - restart mariadb
+
+- name: Fail on error.
+  fail: msg="Database was not created"
+  when: db_name not in db_list.stdout_lines
+    
+
+
+  

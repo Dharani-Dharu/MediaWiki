@@ -1,0 +1,11 @@
+---
+- name: Media Wiki Database and WebServer
+  hosts: all
+  become: yes
+  user: centos
+  roles:
+   - mediawiki
+  vars_file:
+   - vault/vault.yml
+   
+

@@ -1,0 +1,17 @@
+---
+plugin: aws_ec2
+aws_access_key: <Access_key>
+aws_secret_key: <Secret_key>
+regions:
+ - us-west-2
+filters:
+  tag:type: app
+keyed_groups:
+  - key: tags.Name
+    prefix: tag_Name
+hostnames:
+  - dns-name
+  - private-ip-address
+
+  ## In case of using role, the access and secret key can be removed
+  ## 

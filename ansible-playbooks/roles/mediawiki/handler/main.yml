@@ -1,0 +1,13 @@
+---
+- name: enable httpd
+  systemd: name=httpd enabled=yes
+
+- name: restart httpd
+  systemd: name=httpd state=restarted
+
+- name: enable mariadb
+  systemd: name=mariadb enabled=yes
+
+- name: restart mariadb
+  systemd: name=mariadb state=restarted
+

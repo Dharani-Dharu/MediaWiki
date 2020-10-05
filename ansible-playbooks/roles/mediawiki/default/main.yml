@@ -1,0 +1,13 @@
+---
+
+web:
+  - httpd
+  - php
+  - php-mysql
+  - php-gd
+  - mariadb-server
+  - php-xml
+  - php-intl
+  - mysql
+  - wget
+  - firewalld
