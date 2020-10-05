@@ -97,7 +97,7 @@
     - db
 
 - name: remove the MySQL test database
-  action: mysql_db login_user=root login_password="{{ mysql_root }}" db=test state=absent
+  action: mysql_db login_user=root login_password="{{ root_password }}" db=test state=absent
   tags:
     - db
   notify:

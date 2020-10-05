@@ -9,5 +9,6 @@ web_setup:
   - php-xml
   - php-intl
   - mysql
+  - MySQL-python
   - wget
   - firewalld
