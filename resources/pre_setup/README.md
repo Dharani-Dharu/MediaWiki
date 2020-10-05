@@ -9,21 +9,6 @@
 
 * Does not support any advanced features like Lifecycle configuration, advanced KMS encryption, logging , CORS, custom poliy using templates
 
-## Note on .tflint.hcl file
-Reference :  https://github.com/terraform-linters/tflint/blob/master/README.md
-
-* TFLint inspects all configurations under the current directory by default. 
-
-* Command-direct-config :tflint --deep
-* Command-module : tflint --deep --module
-
-## Terraform commands used to test
-
-terraform validate
-terraform init
-terraform plan -var-file terraform.tfvars
-terraform apply -var-file terraform.tfvars
-
 ## Usage
 
 ```hcl
@@ -43,6 +28,20 @@ resource "aws_s3_bucket" "s3" {
 }
 
 ```
+
+## Note on .tflint.hcl file
+Reference :  https://github.com/terraform-linters/tflint/blob/master/README.md
+
+* TFLint inspects all configurations under the current directory by default. 
+* Command-direct-config :tflint --deep
+* Command-module : tflint --deep --module
+
+## Terraform commands used to test
+
+terraform validate
+terraform init
+terraform plan -var-file terraform.tfvars
+terraform apply -var-file terraform.tfvars
 
 
 <!-- BEGINNING OF OUTPUT FROM terraform-docs plugin -->

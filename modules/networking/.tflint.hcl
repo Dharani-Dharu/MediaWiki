@@ -3,6 +3,7 @@ config {
   deep_check = true
   force = false
   disabled_by_default = false
+
 }
 
 rule "aws_instance_invalid_type" {
