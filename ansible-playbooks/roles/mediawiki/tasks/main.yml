@@ -1,7 +1,7 @@
 ---
 ## yum httpd php php-mysql php-gd mariadb-server php-xml php-intl mysql
 - name: Install dependencies
-  yum: name="{{ web }}" state=present
+  yum: name="{{ web_setup }}" state=present
   tags:
     - web
     - db

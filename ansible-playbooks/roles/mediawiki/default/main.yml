@@ -1,6 +1,6 @@
 ---
 
-web:
+web_setup:
   - httpd
   - php
   - php-mysql
