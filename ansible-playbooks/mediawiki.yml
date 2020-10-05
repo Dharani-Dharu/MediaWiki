@@ -5,7 +5,7 @@
   user: centos
   roles:
    - mediawiki
-  vars_file:
+  vars_files:
    - vault/vault.yml
    
 
