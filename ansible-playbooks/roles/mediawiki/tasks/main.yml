@@ -128,17 +128,46 @@
   notify:
     - restart mariadb
 
-- name: Confirmation on Creation.
-  shell: 'mysql -u root -p {{ root_password }} --execute="SHOW DATABASES;"'
-  register: db_list
-  tags:
-    - db
-  notify:
-    - restart mariadb
+## Check later
+# - name: Confirmation on Creation.
+#   shell: 'mysql -u root -p {{ root_password }} --execute="SHOW DATABASES;"'
+#   register: db_list
+#   tags:
+#     - db
+#   notify:
+#     - restart mariadb
 
-- name: Fail on error.
-  fail: msg="Database was not created"
-  when: db_name not in db_list.stdout_lines
+# - name: Fail on error.
+#   fail: msg="Database was not created"
+#   when: db_name not in db_list.stdout_lines
+
+
+##Disable SELINUX ##
+## Ref : https://github.com/stardata/ansible-disable-selinux/blob/master/tasks/main.yml
+- name: Install libselinux as prerequisite for SELinux Ansible module
+  yum:
+    name: "{{item}}"
+    state: latest
+  with_items:
+    - libselinux-python
+    - libsemanage-python
+  tags:
+    - selinux
+
+- name: Disable SELinux at next reboot
+  selinux:
+    state: disabled
+  tags:
+    - selinux
+
+- name: Set SELinux in permissive mode until the machine is rebooted
+  command: setenforce 0
+  ignore_errors: true
+  changed_when: false
+  tags:
+    - selinux
+
+
     
 
 
