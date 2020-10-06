@@ -1,0 +1,14 @@
+---
+
+web_setup:
+  - httpd
+  - php
+  - php-mysql
+  - php-gd
+  - mariadb-server
+  - php-xml
+  - php-intl
+  - mysql
+  - MySQL-python
+  - wget
+  - firewalld

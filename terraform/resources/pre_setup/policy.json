@@ -1,0 +1,19 @@
+{
+    "Id": "bucketPolicy",
+    "Statement": [
+            {
+                    "Action": "s3:*",
+                    "Effect": "Deny",
+                    "NotPrincipal": {
+                            "AWS": [
+                                    "arn:aws:iam::<Account_NO>:user/<user_name>"
+                            ]
+                    },
+                    "Resource": [
+                            "arn:aws:s3:::<s3_bucket_name>",
+                            "arn:aws:s3:::<s3_bucket_name>/*"
+                    ]
+            }
+    ],
+    "Version": "2012-10-17"
+}

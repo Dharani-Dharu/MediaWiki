@@ -1,0 +1,35 @@
+region                  = "us-west-2"
+vpc_id                  = "vpc-0aaaaaaaaab"
+is_internal                = false
+alb_name                = "alb-01"
+load_balancer_type      = "application"
+subnets_id_list         = ["subnet-05aaaaaaaaaaaaac","subnet-09baaaaaaaaaa938"]
+target_group_port       = 80
+health_check            = [{
+    "path" = "/"
+    "port" = "traffic-port"
+    "protocol" = "HTTP"
+}]
+http_listener_port      = 80
+http_listener_protocol  = "HTTP"
+ami_id                  = "ami-0baaaaaaaaaaaaee1"
+instance_type           = "t2.micro"
+private_subnet_ids      = ["subnet-0048aaaaaaaa3e1","subnet-022aaaaaaaa5f"]
+max_instance_count      = 1
+min_instance_count      = 1
+desired_instance_count  = 1
+asg_tags                = {
+    "type" = "app"
+    "Name" = "asg-ec2"
+  }
+alb_sg_id = ["sg-01aaaaaaaadce"]
+ec2_sg_id = ["sg-05faaaaaaaaaba0"]
+lc_name   = "lcv-03"
+db_ami    = "ami-0bc06212a56393ee1"
+db_instance_type = "t2.micro"
+db_subnet_id = "subnet-0aaaaaaaaaaa3e1"
+db_ec2_tags = {
+  "type" = "db"
+  "Name" = "db-ec2"
+}
+key_pair_name = "example_keypair"
