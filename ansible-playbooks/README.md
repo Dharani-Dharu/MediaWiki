@@ -17,3 +17,7 @@
         * Has serial:1 added in the top to simulate the rolling update
         * More changes like removing and attaching back to LB can be done with further changes in code
         * Uses the new aws_ec2 plugin for getting a dynamic inventory file based on tags which can be passed to ansible-playbook      
+
+3. Install boto3 and botocore after setting up Ansible. This is needed for running the aws_ec2 plugin for dynamic inventory
+
+4. The instances should be tagged type:app and type:db for the dynamic inventory to pick those instances for applying ansible playbook. 
