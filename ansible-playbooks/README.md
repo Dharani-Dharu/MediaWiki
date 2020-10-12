@@ -21,3 +21,9 @@
 3. Install boto3 and botocore after setting up Ansible. This is needed for running the aws_ec2 plugin for dynamic inventory
 
 4. The instances should be tagged type:app and type:db for the dynamic inventory to pick those instances for applying ansible playbook. 
+
+
+## Action items ##
+
+1. roles/mediawiki/tasks/main.yml 
+    1. Task 1 : Seaparate Web and DB installation items

@@ -1,10 +1,12 @@
 ---
 ## yum httpd php php-mysql php-gd mariadb-server php-xml php-intl mysql
+## This has to be separated as per the tag. web and db components should be installed separately
 - name: Install dependencies
   yum: name="{{ web_setup }}" state=present
   tags:
     - web
     - db
+
 
 - name: start and enable httpd server
   systemd: state=started name=httpd enabled=true
@@ -65,7 +67,11 @@
 
 
 ## Security hardening of MYSQL DB ##
+## https://www.upguard.com/blog/top-11-ways-to-improve-mysql-security ##
+## https://medium.com/linode-cube/5-essential-steps-to-hardening-your-mysql-database-591e477bbbd7 ##
+## https://docs.ansible.com/ansible/2.3/mysql_user_module.html ##
 #Ref : https://www.whatan00b.com/posts/mysql-secure-installation-using-ansible/ ##
+
 - name: delete anonymous MySQL server user for {{ ansible_nodename }}
   mysql_user: login_user=root
               login_password='{{ root_password }}'
@@ -96,6 +102,7 @@
   tags:
     - db
 
+## https://docs.ansible.com/ansible/2.5/modules/mysql_db_module.html ##
 - name: remove the MySQL test database
   action: mysql_db login_user=root login_password="{{ root_password }}" db=test state=absent
   tags:
@@ -143,6 +150,7 @@
 
 
 ##Disable SELINUX ##
+## https://docs.ansible.com/ansible/2.4/selinux_module.html ##
 ## Ref : https://github.com/stardata/ansible-disable-selinux/blob/master/tasks/main.yml
 - name: Install libselinux as prerequisite for SELinux Ansible module
   yum:
